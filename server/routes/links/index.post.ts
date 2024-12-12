@@ -9,14 +9,10 @@ export default defineEventHandler(async (event) => {
 
         if (body.url && body.title) {
             const slug = generateSlug(body.title);
-            await db.insert(links).values({ slug, url: body.url, title: body.title }).execute();
+            const res = await db.insert(links).values({ slug, url: body.url, title: body.title }).returning();
             return {
                 status: 201,
-                body: {
-                    slug: slug,
-                    url: body.url,
-                    title: body.title,
-                }
+                body: res,
             };
         } else {
             throw createError({
