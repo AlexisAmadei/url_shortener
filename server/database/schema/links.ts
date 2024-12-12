@@ -1,12 +1,13 @@
-import { integer, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
 export const links = pgTable('links', {
-  slug: text().primaryKey(),
+  id: uuid().primaryKey().defaultRandom(),
+  slug: text().notNull().unique(),
   url: text().notNull(),
   title: text().notNull(),
-  max_visits: integer(),
-  available_at: timestamp().defaultNow(),
-  expired_at: timestamp(),
-  created_at: timestamp().defaultNow(),
-  update_at: timestamp().notNull().defaultNow(),
+  maxVisits: integer('max_visits'),
+  availableAt: timestamp('available_at').defaultNow(),
+  expiresAt: timestamp('expires_at'),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp('updated_at').notNull().defaultNow(),
 });
