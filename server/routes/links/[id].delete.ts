@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
     const db = useDrizzle();
     const id = getRouterParam(event, 'id');
 
-    await db.delete(links).where(eq(links.id, id)).execute();
+    await db.delete(links).where(eq(links.id, id));
 
     return {
         "status": 204,

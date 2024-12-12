@@ -9,7 +9,7 @@ export default defineEventHandler(async event => {
     } catch (error) {
         console.error('error fetching tags', error);
         return {
-            statusCode: 500,
+            status: 500,
             body: JSON.stringify({ message: 'Internal Server Error' }),
         };
     }
