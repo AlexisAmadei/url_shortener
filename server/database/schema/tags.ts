@@ -1,7 +1,7 @@
-import { integer, pgTable, text } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, uuid } from "drizzle-orm/pg-core";
 
 export const tags = pgTable('tags', {
-  id: integer().primaryKey(),
+  id: uuid().primaryKey().defaultRandom(),
   name: text().unique().notNull(),
   color: text().notNull(),
 })
