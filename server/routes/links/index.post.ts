@@ -11,31 +11,29 @@ export default defineEventHandler(async (event) => {
             const slug = generateSlug(body.title);
             await db.insert(links).values({ slug, url: body.url, title: body.title }).execute();
             return {
-                statusCode: 201,
-                body: JSON.stringify({
-                    message: "Link added successfully",
-                    link: { slug, url: body.url, title: body.title },
-                }),
+                status: 201,
+                body: {
+                    slug: slug,
+                    url: body.url,
+                    title: body.title,
+                }
             };
         } else {
             throw createError({
-                statusCode: 400,
-                message: "Invalid input",
+                status: 400,
+                message: "Invalid request body. URL and title are required.",
             });
         }
     } catch (error: any) {
         if (error.code === "23505") {
             return {
-                statusCode: 409,
-                body: JSON.stringify({
-                    message: `A link with the same slug already exists.`,
-                    detail: error.detail,
-                }),
+                "status": 409,
+                "message": "A link with the same slug already exists."
             };
         }
         console.error("Unexpected error:", error);
         throw createError({
-            statusCode: 500,
+            status: 500,
             message: "Internal server error",
         });
     }
