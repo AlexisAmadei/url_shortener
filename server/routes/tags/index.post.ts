@@ -8,13 +8,12 @@ export default defineEventHandler(async event => {
     console.log(body);
 
     try {
-        const results = await db.insert(tags).values({
-            id: body.id,
-            name: body.name,
-            color: body.color
-        }).returning();
+        const res = await db.insert(tags).values(body).returning();
 
-        return { body };
+        return {
+            status: 201,
+            body: res,
+        }
     } catch (error) {
         console.error("Error inserting tag:", error);
         return { error: "Failed to insert tag" };
